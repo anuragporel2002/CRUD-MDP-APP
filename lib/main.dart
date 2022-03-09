@@ -1,4 +1,8 @@
+import 'package:crudappmdp/Screens/addDish.dart';
+import 'package:crudappmdp/Screens/dishDetail.dart';
+import 'package:crudappmdp/Screens/editDish.dart';
 import 'package:crudappmdp/Screens/login.dart';
+import 'package:crudappmdp/Screens/splashScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sizer/flutter_sizer.dart';
 
@@ -19,7 +23,7 @@ class MyApp extends StatelessWidget {
           brightness: Brightness.dark,
           primarySwatch: Colors.blue,
         ),
-        home: const LoginScreen(),
+        home: const DishDetail(),
       );
     });
   }
