@@ -1,23 +1,46 @@
+import 'package:crudappmdp/Screens/decision.dart';
 import 'package:dotted_border/dotted_border.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sizer/flutter_sizer.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class DishDetail extends StatefulWidget {
-  const DishDetail({Key? key}) : super(key: key);
+  final String prodID, name, price, img;
+  final int prot, cal, fat, carb;
+  const DishDetail(
+      {Key? key,
+      required this.prodID,
+      required this.name,
+      required this.price,
+      required this.prot,
+      required this.cal,
+      required this.fat,
+      required this.carb,
+      required this.img})
+      : super(key: key);
 
   @override
   State<DishDetail> createState() => _DishDetailState();
 }
 
 class _DishDetailState extends State<DishDetail> {
-  String imgUrl = "https://cdn-icons-png.flaticon.com/512/1375/1375210.png",
-      name = "Chocolate Donut",
-      price = "200";
-  double _currentSliderValueP = 50;
-  double _currentSliderValueC = 20;
-  double _currentSliderValueF = 10;
-  double _currentSliderValueK = 200;
+  double _currentSliderValueP = 0;
+  double _currentSliderValueC = 0;
+  double _currentSliderValueF = 0;
+  double _currentSliderValueK = 0;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    setState(() {
+      _currentSliderValueC = widget.carb.toDouble();
+      _currentSliderValueP = widget.prot.toDouble();
+      _currentSliderValueK = widget.cal.toDouble();
+      _currentSliderValueF = widget.fat.toDouble();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -64,6 +87,36 @@ class _DishDetailState extends State<DishDetail> {
                         color: const Color(0xff7D1EDB))),
               ],
             ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                IconButton(
+                    onPressed: () async {
+                      await FirebaseAuth.instance.signOut();
+                      Navigator.of(context).pushReplacement(MaterialPageRoute(
+                          builder: (context) => const DecisionPage()));
+                    },
+                    icon: const Icon(
+                      Icons.logout,
+                      color: Color(0xffffffff),
+                    ))
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                IconButton(
+                    onPressed: () async {
+                      Navigator.of(context).pop();
+                    },
+                    icon: const Icon(
+                      Icons.arrow_back,
+                      color: Color(0xffffffff),
+                    ))
+              ],
+            ),
           ],
         ),
       ),
@@ -97,7 +150,7 @@ class _DishDetailState extends State<DishDetail> {
               radius: 16.w,
               child: DottedBorder(
                 radius: Radius.circular(16.w),
-                color: imgUrl == ""
+                color: widget.img == ""
                     ? const Color(0xff454545)
                     : const Color(0xff000000),
                 strokeWidth: 2,
@@ -106,7 +159,7 @@ class _DishDetailState extends State<DishDetail> {
                 child: CircleAvatar(
                   radius: 16.w,
                   backgroundColor: const Color(0xff000000),
-                  child: imgUrl == ""
+                  child: widget.img == ""
                       ? Padding(
                           padding: EdgeInsets.all(5.w),
                           child: Image.asset(
@@ -120,7 +173,7 @@ class _DishDetailState extends State<DishDetail> {
                           decoration: BoxDecoration(
                               shape: BoxShape.circle,
                               image: DecorationImage(
-                                  image: NetworkImage(imgUrl),
+                                  image: NetworkImage(widget.img),
                                   fit: BoxFit.contain)),
                         ),
                 ),
@@ -134,7 +187,7 @@ class _DishDetailState extends State<DishDetail> {
               alignment: Alignment.center,
               padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 2.w),
               child: Text(
-                name,
+                widget.name,
                 style: GoogleFonts.ubuntu(
                     fontSize: 16.dp,
                     fontWeight: FontWeight.w800,
@@ -144,7 +197,7 @@ class _DishDetailState extends State<DishDetail> {
               alignment: Alignment.center,
               padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 2.w),
               child: Text(
-                '₹ $price',
+                '₹ ${widget.price}',
                 style: GoogleFonts.ubuntu(
                     fontSize: 15.dp,
                     fontWeight: FontWeight.w600,

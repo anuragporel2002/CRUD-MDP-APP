@@ -1,4 +1,6 @@
+import 'package:crudappmdp/Screens/decision.dart';
 import 'package:crudappmdp/Screens/signin.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_sizer/flutter_sizer.dart';
@@ -11,6 +13,9 @@ class Register extends StatefulWidget {
 }
 
 class _RegisterState extends State<Register> {
+  TextEditingController email = TextEditingController();
+  TextEditingController password = TextEditingController();
+  TextEditingController name = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -49,7 +54,7 @@ class _RegisterState extends State<Register> {
                       padding:
                           EdgeInsets.symmetric(vertical: 1.w, horizontal: 8.w),
                       alignment: Alignment.centerLeft,
-                      child: Text('Sign In',
+                      child: Text('Sign Up',
                           style: GoogleFonts.ubuntu(
                               fontSize: 24.dp,
                               fontWeight: FontWeight.w700,
@@ -59,7 +64,7 @@ class _RegisterState extends State<Register> {
                       padding:
                           EdgeInsets.symmetric(vertical: 0.w, horizontal: 8.w),
                       alignment: Alignment.centerLeft,
-                      child: Text('Sign in with your account',
+                      child: Text('Create your new account',
                           style: GoogleFonts.ubuntu(
                               fontSize: 11.dp,
                               fontWeight: FontWeight.normal,
@@ -78,6 +83,7 @@ class _RegisterState extends State<Register> {
                             fontSize: 12.dp,
                             fontWeight: FontWeight.normal,
                             color: const Color(0xff000000)),
+                        controller: name,
                         decoration: InputDecoration(
                             constraints: BoxConstraints(
                                 maxHeight: 18.w,
@@ -112,6 +118,7 @@ class _RegisterState extends State<Register> {
                             fontSize: 12.dp,
                             fontWeight: FontWeight.normal,
                             color: const Color(0xff000000)),
+                        controller: email,
                         decoration: InputDecoration(
                             constraints: BoxConstraints(
                                 maxHeight: 18.w,
@@ -147,6 +154,7 @@ class _RegisterState extends State<Register> {
                             fontWeight: FontWeight.normal,
                             color: const Color(0xff000000)),
                         obscureText: true,
+                        controller: password,
                         decoration: InputDecoration(
                             constraints: BoxConstraints(
                                 maxHeight: 18.w,
@@ -179,7 +187,17 @@ class _RegisterState extends State<Register> {
                         minWidth: 30.w,
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(100.w)),
-                        onPressed: () {},
+                        onPressed: () {
+                          FirebaseAuth.instance
+                              .createUserWithEmailAndPassword(
+                                  email: email.text, password: password.text)
+                              .then((value) {
+                            Navigator.of(context).pushReplacement(
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        const DecisionPage()));
+                          });
+                        },
                         child: Text(
                           'Sign-Up',
                           style: GoogleFonts.nunito(
@@ -201,7 +219,7 @@ class _RegisterState extends State<Register> {
                           Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => const SignInScreen()));
+                                  builder: (context) => const DecisionPage()));
                         },
                         child: Text('Sign-In',
                             style: GoogleFonts.ubuntu(

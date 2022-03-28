@@ -1,5 +1,7 @@
+import 'package:crudappmdp/Screens/decision.dart';
 import 'package:crudappmdp/Screens/register.dart';
 import 'package:crudappmdp/Screens/signup.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:glassmorphism/glassmorphism.dart';
 import 'package:flutter_sizer/flutter_sizer.dart';
@@ -7,13 +9,22 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:simple_gradient_text/simple_gradient_text.dart';
 
 class SignInScreen extends StatefulWidget {
-  const SignInScreen({Key? key}) : super(key: key);
+  final Function(User?) onSignIn;
+  const SignInScreen({Key? key, required this.onSignIn}) : super(key: key);
 
   @override
   _SignInScreenState createState() => _SignInScreenState();
 }
 
 class _SignInScreenState extends State<SignInScreen> {
+  TextEditingController email = TextEditingController();
+  TextEditingController password = TextEditingController();
+  loginWithEP() async {
+    UserCredential userCredential = await FirebaseAuth.instance
+        .signInWithEmailAndPassword(email: email.text, password: password.text);
+    widget.onSignIn(userCredential.user);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -81,6 +92,7 @@ class _SignInScreenState extends State<SignInScreen> {
                             fontSize: 12.dp,
                             fontWeight: FontWeight.normal,
                             color: const Color(0xff000000)),
+                        controller: email,
                         decoration: InputDecoration(
                             constraints: BoxConstraints(
                                 maxHeight: 18.w,
@@ -116,6 +128,7 @@ class _SignInScreenState extends State<SignInScreen> {
                             fontWeight: FontWeight.normal,
                             color: const Color(0xff000000)),
                         obscureText: true,
+                        controller: password,
                         decoration: InputDecoration(
                             constraints: BoxConstraints(
                                 maxHeight: 18.w,
@@ -148,7 +161,9 @@ class _SignInScreenState extends State<SignInScreen> {
                         minWidth: 30.w,
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(100.w)),
-                        onPressed: () {},
+                        onPressed: () {
+                          loginWithEP();
+                        },
                         child: Text(
                           'Sign-In',
                           style: GoogleFonts.nunito(

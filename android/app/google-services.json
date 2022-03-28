@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "699077085079",
+    "project_id": "mdpcrudapp",
+    "storage_bucket": "mdpcrudapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:699077085079:android:83225e06163283129ee6d2",
+        "android_client_info": {
+          "package_name": "com.example.crudappmdp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "699077085079-d1d51rj6vjmughtiavpmi59ecmhl3ka3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAWI4OcTEiCKATifKtliRFYbhsGTKuQIcQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "699077085079-d1d51rj6vjmughtiavpmi59ecmhl3ka3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

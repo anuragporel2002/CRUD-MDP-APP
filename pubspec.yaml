@@ -39,6 +39,12 @@ dependencies:
   glassmorphism: ^3.0.0
   simple_gradient_text: ^1.2.2
   dotted_border: ^2.0.0+2
+  file_picker: ^4.5.0
+  firebase_core: ^1.13.1
+  firebase_auth: ^3.3.9
+  cloud_firestore: ^3.1.10
+  image_picker: ^0.8.4+10
+  firebase_storage: ^10.2.9
   
 
 dev_dependencies:
